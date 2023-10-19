@@ -1,0 +1,30 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("MYSQL_URL")
+}
+
+
+model IRequest {
+  id        Int       @id @default(autoincrement())
+  url       String
+  returnType String
+  format    String
+  status    String
+  parameters IParameter[]
+}
+
+model IParameter {
+  id      Int      @id @default(autoincrement())
+  name    String
+  type    String
+  comment String?
+  request  IRequest @relation(fields: [requestId], references: [id])
+  requestId Int
+}
